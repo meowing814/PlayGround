@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#120d0b" />
+    <meta name="description" content="Gilded Thorns — a 3D sapphic romance visual novel set in the lawless town of Cinder Gulch." />
+    <title>Gilded Thorns · A Cinder Gulch Romance</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23150e0c'/%3E%3Cpath d='M32 50C18 40 13 32 13 24c0-8 6-13 12-13 3 0 6 2 7 5 2-3 5-5 8-5 6 0 11 5 11 13 0 8-6 16-19 26Z' fill='%23c99a46'/%3E%3Cpath d='M32 20v20M24 30h16' stroke='%23341a1b' stroke-width='2'/%3E%3C/svg%3E" />
+    <script type="module" crossorigin src="./assets/index-CYHgCX_T.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-XsTIuEao.css">
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="stage" aria-hidden="true"></canvas>
+      <div class="scene-grade" aria-hidden="true"></div>
+      <div class="grain" aria-hidden="true"></div>
+
+      <section id="title-screen" class="screen title-screen" aria-label="Title screen">
+        <div class="title-topline">
+          <span class="rule"></span>
+          <span class="eyebrow">A sapphic western visual novel</span>
+          <span class="rule"></span>
+        </div>
+        <div class="title-lockup">
+          <p class="title-kicker">Cinder Gulch, New Mexico Territory · 1889</p>
+          <h1><span>Gilded</span><span>Thorns</span></h1>
+          <p class="title-sub">Three women want your heart. The town wants your soul.</p>
+        </div>
+        <div class="title-actions">
+          <button id="btn-new" class="btn btn-primary" type="button">
+            <span class="btn-filigree">✦</span>
+            <span><b>New Game</b><small>Ride into town</small></span>
+          </button>
+          <button id="btn-continue" class="btn btn-ghost" type="button" hidden>
+            <span><b>Continue</b><small id="continue-label">Chapter I</small></span>
+          </button>
+          <div class="title-secondary">
+            <button id="btn-gallery" class="text-btn" type="button">Endings <span id="ending-count">0/9</span></button>
+            <span class="dot">·</span>
+            <button id="btn-how" class="text-btn" type="button">How to play</button>
+            <span class="dot">·</span>
+            <button id="btn-sound-title" class="text-btn" type="button" aria-pressed="true">Sound on</button>
+          </div>
+        </div>
+        <p class="content-note">18+ · Suggestive themes, possessive behavior, period-typical violence. This is a work of fiction.</p>
+        <div class="title-credit">An original story in three acts &nbsp;✦&nbsp; Best with sound</div>
+      </section>
+
+      <section id="game-shell" class="screen game-shell" hidden aria-label="Game">
+        <header class="hud">
+          <div class="hud-left">
+            <span class="chapter-mark" id="hud-act">PROLOGUE</span>
+            <span class="hud-rule"></span>
+            <span class="hud-place" id="hud-place">Cinder Gulch</span>
+          </div>
+          <div class="hud-center" id="hud-title">The Gilded Lily</div>
+          <div class="hud-right">
+            <button id="btn-journal" class="icon-btn" type="button" aria-label="Open journal" title="Journal (J)">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H20v17.5H7.5A2.5 2.5 0 0 0 5 22V4.5Z"/><path d="M5 19.5A2.5 2.5 0 0 1 7.5 17H20M8.5 6.5h7M8.5 10h5"/></svg>
+              <span class="badge" id="clue-badge">0</span>
+            </button>
+            <button id="btn-sound" class="icon-btn" type="button" aria-label="Mute sound" title="Sound (M)" aria-pressed="true">
+              <svg class="i-sound" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/></svg>
+              <svg class="i-muted" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="m16 9 5 6M21 9l-5 6"/></svg>
+            </button>
+            <button id="btn-menu" class="icon-btn" type="button" aria-label="Open menu" title="Menu (Esc)">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+            </button>
+          </div>
+        </header>
+
+        <div id="scene-caption" class="scene-caption" aria-live="polite"></div>
+
+        <div id="choice-dock" class="choice-dock" hidden>
+          <p class="choice-prompt"><span>What do you do?</span></p>
+          <div id="choice-list" class="choice-list"></div>
+        </div>
+
+        <div id="dialogue-wrap" class="dialogue-wrap">
+          <div class="speaker-plaque">
+            <span class="speaker-gem" id="speaker-gem"></span>
+            <div>
+              <h2 id="speaker-name">June Calloway</h2>
+              <p id="speaker-mood">the stranger</p>
+            </div>
+          </div>
+          <div class="dialogue-panel">
+            <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+            <div class="dialogue-scroll">
+              <p id="dialogue-text" class="dialogue-text" aria-live="polite"></p>
+            </div>
+            <div class="dialogue-footer">
+              <span id="autosave-note" class="autosave-note">Autosaved</span>
+              <button id="btn-advance" class="advance-btn" type="button" aria-label="Continue">
+                <span class="advance-label">Continue</span>
+                <span class="advance-diamond">◆</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="bond-rail" id="bond-rail" aria-label="Relationships"></div>
+        <div id="toast-stack" class="toast-stack" aria-live="polite"></div>
+        <div id="scene-fade" class="scene-fade"></div>
+        <div id="transition-card" class="transition-card" hidden>
+          <p class="transition-act" id="transition-act">ACT I</p>
+          <h2 id="transition-title">The Gilded Lily</h2>
+          <p id="transition-sub">Cinder Gulch · after sundown</p>
+          <span class="transition-ornament">✦</span>
+        </div>
+      </section>
+
+      <div id="journal" class="overlay journal-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="journal-title">
+        <div class="journal-book">
+          <button class="overlay-close" data-close="journal" type="button" aria-label="Close journal">✕</button>
+          <div class="journal-header">
+            <p class="eyebrow">June Calloway's</p>
+            <h2 id="journal-title">Field Journal</h2>
+            <p class="journal-date">Cinder Gulch · October 1889</p>
+          </div>
+          <div class="journal-tabs" role="tablist">
+            <button class="jtab active" data-tab="hearts" role="tab" aria-selected="true">Hearts</button>
+            <button class="jtab" data-tab="clues" role="tab" aria-selected="false">Clues <span id="tab-clue-count">0</span></button>
+            <button class="jtab" data-tab="self" role="tab" aria-selected="false">June</button>
+          </div>
+          <div class="journal-body">
+            <div class="jtab-panel active" data-panel="hearts">
+              <p class="journal-intro">Desire is a compass. Obsession is a leash. Learn the difference before dawn.</p>
+              <div id="heart-cards" class="heart-cards"></div>
+            </div>
+            <div class="jtab-panel" data-panel="clues">
+              <p class="journal-intro">Letters, ledgers, and little lies. Everything you have remembered—or been told.</p>
+              <ul id="clue-list" class="clue-list"></ul>
+            </div>
+            <div class="jtab-panel" data-panel="self">
+              <div class="self-portrait"><span>J.C.</span></div>
+              <h3>June Calloway</h3>
+              <p class="self-role">Former Pinkerton agent · reluctant heartbreaker</p>
+              <p>You came to Cinder Gulch with a letter and a six-month hole in your memory. You have a bullet scar on your left shoulder, a smart mouth, and three women who look at you like you are the last train out of hell.</p>
+              <dl class="self-stats">
+                <div><dt>Nerve</dt><dd id="stat-nerve">Steady</dd></div>
+                <div><dt>Reputation</dt><dd id="stat-reputation">Unclaimed</dd></div>
+                <div><dt>Current route</dt><dd id="stat-route">Undecided</dd></div>
+              </dl>
+              <p class="journal-small">Progress autosaves at every beat. Endings are remembered across playthroughs.</p>
+            </div>
+          </div>
+          <p class="journal-footer">“Some knots are tied to hold. Some are tied to hang.”</p>
+        </div>
+      </div>
+
+      <div id="pause-menu" class="overlay pause-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="pause-title">
+        <div class="pause-card">
+          <button class="overlay-close" data-close="pause" type="button" aria-label="Close menu">✕</button>
+          <p class="eyebrow">Take a breath</p>
+          <h2 id="pause-title">Paused</h2>
+          <p class="pause-quote" id="pause-quote">The desert is patient. So are they.</p>
+          <div class="pause-actions">
+            <button id="btn-resume" class="btn btn-primary small" type="button"><span><b>Resume</b><small>Back to Cinder Gulch</small></span></button>
+            <button id="btn-load" class="btn btn-ghost small" type="button"><span><b>Load autosave</b><small>Return to the last beat</small></span></button>
+            <button id="btn-save-quit" class="btn btn-ghost small" type="button"><span><b>Save &amp; quit</b><small>Return to title</small></span></button>
+          </div>
+          <div class="pause-settings">
+            <label class="range-row" for="text-speed"><span>Text speed</span><input id="text-speed" type="range" min="0" max="2" step="1" value="1" /><span id="text-speed-label">Brisk</span></label>
+            <label class="range-row" for="volume"><span>Volume</span><input id="volume" type="range" min="0" max="100" step="1" value="45" /><span id="volume-label">45%</span></label>
+            <label class="toggle-row"><span>Reduce motion</span><input id="reduce-motion" type="checkbox" /><i></i></label>
+          </div>
+          <p class="pause-tip">Tip: press <kbd>Space</kbd> to advance, <kbd>1</kbd>–<kbd>5</kbd> to choose, <kbd>J</kbd> for your journal.</p>
+        </div>
+      </div>
+
+      <div id="gallery" class="overlay gallery-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="gallery-title">
+        <div class="gallery-card">
+          <button class="overlay-close" data-close="gallery" type="button" aria-label="Close endings">✕</button>
+          <p class="eyebrow">The road not taken</p>
+          <h2 id="gallery-title">Endings</h2>
+          <p class="gallery-sub">Every heart leaves a mark. <span id="gallery-progress"></span></p>
+          <div id="gallery-grid" class="gallery-grid"></div>
+          <button id="btn-reset-endings" class="text-btn tiny" type="button">Forget all endings</button>
+        </div>
+      </div>
+
+      <div id="howto" class="overlay howto-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="howto-title">
+        <div class="howto-card">
+          <button class="overlay-close" data-close="howto" type="button" aria-label="Close how to play">✕</button>
+          <p class="eyebrow">Before you ride</p>
+          <h2 id="howto-title">How to Play</h2>
+          <div class="howto-cols">
+            <div>
+              <h3>Read the room</h3>
+              <p>Click, tap, <kbd>Space</kbd>, or <kbd>Enter</kbd> to advance. Choices pause the story. Every woman remembers what you do.</p>
+              <h3>Watch the meters</h3>
+              <p><b>Devotion</b> is honest affection. <b>Hunger</b> is possessive obsession. High Hunger and low Devotion leads somewhere dark.</p>
+            </div>
+            <div>
+              <h3>Choose a road</h3>
+              <p>The story splits at midnight. One invitation. Three very different ways to ruin your life—or save it.</p>
+              <h3>Collect the clues</h3>
+              <p>Letters and ledgers unlock new truths. Nine endings wait in the dust. Your gallery is saved on this device.</p>
+            </div>
+          </div>
+          <p class="howto-warning">Contains depictions of possessive behavior, manipulation, period-typical violence, and strong romantic tension. All characters are adults.</p>
+        </div>
+      </div>
+
+      <div id="ending-screen" class="screen ending-screen" hidden aria-label="Ending">
+        <div class="ending-vignette"></div>
+        <div class="ending-card">
+          <p class="eyebrow" id="ending-eyebrow">ENDING · 1 OF 9</p>
+          <div class="ending-sigil" id="ending-sigil">✦</div>
+          <h1 id="ending-title">The Gilded Lily</h1>
+          <p class="ending-route" id="ending-route">Clementine's ending</p>
+          <div class="ending-divider"></div>
+          <p class="ending-copy" id="ending-copy"></p>
+          <blockquote id="ending-quote"></blockquote>
+          <div class="ending-stats" id="ending-stats"></div>
+          <div class="ending-actions">
+            <button id="btn-ending-journal" class="btn btn-ghost small" type="button"><span><b>View journal</b><small>The record of June Calloway</small></span></button>
+            <button id="btn-ending-again" class="btn btn-primary small" type="button"><span><b>Ride again</b><small>Return to the title</small></span></button>
+          </div>
+        </div>
+      </div>
+
+      <div id="loading" class="loading">
+        <span class="loading-brand">Gilded Thorns</span>
+        <span class="loading-line"></span>
+        <span class="loading-sub">pouring the whiskey…</span>
+      </div>
+    </div>
+  </body>
+</html>

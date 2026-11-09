@@ -1,0 +1,20 @@
+{
+  "name": "gilded-thorns",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 3002",
+    "build": "vite build --base ./",
+    "preview": "vite preview --host 0.0.0.0 --port 3002"
+  },
+  "dependencies": {
+    "@fontsource/cormorant-garamond": "^5.3.0",
+    "@fontsource/rye": "^5.3.0",
+    "@fontsource/special-elite": "^5.3.0",
+    "three": "^0.187.0"
+  },
+  "devDependencies": {
+    "vite": "^8.3.6"
+  }
+}
