@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#241915" />
+  <title>Dust & Devotion — A Western Dating Story</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js"}}</script>
+</head>
+<body>
+  <main id="game" class="game-shell">
+    <div id="world" aria-label="A 3D old western town at sunset"></div>
+    <div class="world-vignette"></div>
+    <header class="topbar">
+      <a class="wordmark" href="#" aria-label="Dust and Devotion home"><span class="brand-mark">✦</span><span>DUST <i>&</i> DEVOTION</span></a>
+      <div class="day-pill"><span class="sun-icon">☼</span><span id="day-label">DAY ONE · GOLDEN HOUR</span></div>
+      <button class="sound-button" id="sound-toggle" aria-label="Toggle ambient sound" title="Toggle sound">♫ <span>AMBIENCE</span></button>
+    </header>
+    <div class="scene-label"><span class="live-dot"></span><span id="place-label">Coyote Creek, Arizona Territory</span></div>
+    <section class="intro-card" id="intro-card" aria-live="polite">
+      <div class="eyebrow"><span>✦</span> A FRONTIER LOVE STORY <span>✦</span></div>
+      <h1>Some hearts<br>are <em>wild</em> country.</h1>
+      <p>You came west to start over. In Coyote Creek, three extraordinary women are about to make that complicated—in the very best way.</p>
+      <div class="intro-meta"><span>♡ QUEER ROMANCE</span><span>◷ 15–20 MIN</span><span>✧ YOUR CHOICES MATTER</span></div>
+      <button class="primary-button" id="begin-button">RIDE INTO TOWN <span>→</span></button>
+      <div class="mature-note">A tender story of grown women, big feelings, and choosing your own horizon.</div>
+    </section>
+    <aside class="cast-panel" id="cast-panel" aria-label="Your admirers">
+      <div class="cast-heading"><span>YOUR ADMIRERS</span><span class="cast-count">03</span></div>
+      <button class="character-card" data-character="ada">
+        <span class="portrait portrait-ada"><span>✦</span></span><span class="character-copy"><strong>Ada Vale</strong><small>THE OUTLAW · 28</small></span><span class="card-arrow">↗</span>
+      </button>
+      <button class="character-card" data-character="cleo">
+        <span class="portrait portrait-cleo"><span>⚙</span></span><span class="character-copy"><strong>Clementine “Cleo” Bell</strong><small>THE INVENTOR · 26</small></span><span class="card-arrow">↗</span>
+      </button>
+      <button class="character-card" data-character="ruby">
+        <span class="portrait portrait-ruby"><span>♫</span></span><span class="character-copy"><strong>Ruby Sol</strong><small>THE SONGBIRD · 30</small></span><span class="card-arrow">↗</span>
+      </button>
+      <div class="cast-foot"><span>♥</span> Every heart has its own story.</div>
+    </aside>
+    <div class="location-nav" id="location-nav">
+      <span class="nav-caption">EXPLORE THE FRONTIER</span>
+      <button class="location-button active" data-location="town"><span>⌂</span><small>MAIN STREET</small></button>
+      <button class="location-button" data-location="saloon"><span>♬</span><small>THE STARLING</small></button>
+      <button class="location-button" data-location="canyon"><span>⌁</span><small>RED ROCK PASS</small></button>
+    </div>
+    <div class="dialogue-wrap hidden" id="dialogue-wrap">
+      <div class="dialogue-topline"><span id="chapter-label">CHAPTER ONE · FIRST IMPRESSIONS</span><span class="dialogue-progress"><i id="progress-fill"></i></span></div>
+      <div class="dialogue-box">
+        <div class="speaker-row"><div class="speaker-icon" id="speaker-icon">✦</div><div><div class="speaker-name" id="speaker-name">Ada Vale</div><div class="speaker-role" id="speaker-role">THE OUTLAW</div></div><div class="affection" id="affection">♡ <span>0</span></div></div>
+        <p id="dialogue-text"></p>
+        <div id="choice-list" class="choice-list"></div>
+        <button id="continue-button" class="continue-button hidden">CONTINUE <span>→</span></button>
+      </div>
+    </div>
+    <div class="toast" id="toast" role="status"></div>
+    <div class="loading" id="loading"><span class="loader-star">✦</span><span>SETTING THE SCENE…</span></div>
+    <footer class="bottom-note"><span>COYOTE CREEK</span><span>ARIZONA TERRITORY · 1887</span></footer>
+  </main>
+  <script type="module" src="game.js"></script>
+</body>
+</html>
